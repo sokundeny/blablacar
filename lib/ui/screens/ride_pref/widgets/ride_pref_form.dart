@@ -1,3 +1,4 @@
+import 'package:blabla/ui/screens/location_picker/location_picker_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../model/ride/locations.dart';
@@ -59,6 +60,27 @@ class _RidePrefFormState extends State<RidePrefForm> {
     });
   }
 
+  void _selectLocation(bool isDeparture) async {
+    final selected = await Navigator.push<Location>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => LocationPickerScreen(
+          selectedLocation: isDeparture ? departure : arrival,
+        ),
+      ),
+    );
+
+    if (selected != null) {
+      setState(() {
+        if (isDeparture) {
+          departure = selected;
+        } else {
+          arrival = selected;
+        }
+      });
+    }
+  }
+
   // ----------------------------------
   // Compute the widgets rendering
   // ----------------------------------
@@ -89,7 +111,9 @@ class _RidePrefFormState extends State<RidePrefForm> {
           label: departure.name.isEmpty
               ? 'Departure'
               : "${departure.name}, ${departure.country}",
-          onTap: () => {},
+          onTap: () {
+            _selectLocation(true);
+          },
           trailing: IconButton(
             icon: const Icon(Icons.swap_vert),
             onPressed: _switchLocations,
@@ -98,10 +122,12 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
         RideprefField(
           icon: Icons.circle_outlined,
-          label: arrival.name.isEmpty 
-              ? 'Destination' 
+          label: arrival.name.isEmpty
+              ? 'Destination'
               : "${arrival.name}, ${arrival.country}",
-          onTap: () {},
+          onTap: () {
+            _selectLocation(false);
+          },
         ),
 
         RideprefField(

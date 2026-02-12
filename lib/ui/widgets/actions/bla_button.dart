@@ -41,9 +41,10 @@ class BlaButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null) ...[
-                IconTheme(
-                  data: IconThemeData(color: contentColor),
-                  child: icon!,
+                Icon(
+                  icon!.icon,
+                  color: contentColor,
+                  size: 20,
                 ),
                 const SizedBox(width: 8),
               ],
