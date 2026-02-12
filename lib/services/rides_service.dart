@@ -23,7 +23,7 @@ class RidesService {
     int requestedSeat,
   ) {
     List<Ride> filteredRide = rides
-        .where((ride) => ride.availableSeats == requestedSeat)
+        .where((ride) => ride.availableSeats >= requestedSeat)
         .toList();
     return filteredRide;
   }
